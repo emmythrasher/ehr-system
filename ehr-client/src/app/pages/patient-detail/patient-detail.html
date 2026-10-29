@@ -1,0 +1,109 @@
+
+<section class="patient-detail">
+
+  <a routerLink="/patients" class="back-link">
+    ← Back to Patients
+  </a>
+
+  @if (loading()) {
+    <p>Loading patient chart...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (patient(); as p) {
+
+    <header class="patient-header">
+      <div>
+        <h1>{{ getPatientName(p) }}</h1>
+        <p>Patient ID: {{ p.id }}</p>
+      </div>
+
+      <a [routerLink]="['/patients', p.id, 'edit']"
+         class="edit-button">
+        Edit Demographics
+      </a>
+    </header>
+
+    <div class="chart-grid">
+
+      <div class="chart-card">
+        <h2>Demographics</h2>
+
+        <div class="detail-row">
+          <span>Date of Birth</span>
+          <strong>{{ p.birthDate || 'Unknown' }}</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>Gender</span>
+          <strong>{{ p.gender || 'Unknown' }}</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>FHIR ID</span>
+          <strong>{{ p.id }}</strong>
+        </div>
+      </div>
+
+
+      <div class="chart-card">
+        <div class="card-header">
+          <h2>Problem List</h2>
+
+          <a [routerLink]="['/patients', p.id, 'conditions']">
+            Manage
+          </a>
+        </div>
+
+        @if (conditionsLoading()) {
+          <p>Loading diagnoses...</p>
+        } @else if (conditionsError()) {
+          <p class="error">{{ conditionsError() }}</p>
+        } @else if (conditions().length === 0) {
+          <p>No conditions recorded.</p>
+        } @else {
+          <div class="condition-list">
+            @for (condition of conditions(); track condition.id) {
+              <div class="condition-item">
+                <div>
+                  <strong>{{ getConditionName(condition) }}</strong>
+                  <small>
+                    {{ condition.code?.coding?.[0]?.code || 'No code' }}
+                  </small>
+                </div>
+
+                <span
+                  class="status"
+                  [class.resolved]="getConditionStatus(condition) === 'resolved'">
+            {{ getConditionStatus(condition) }}
+          </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+
+      <div class="chart-card">
+        <h2>Medications</h2>
+        <p>Medication records will appear here.</p>
+      </div>
+
+      <div class="chart-card">
+        <h2>Allergies</h2>
+        <p>Allergy information will appear here.</p>
+      </div>
+
+      <div class="chart-card">
+        <h2>Encounters</h2>
+        <p>Patient encounters will appear here.</p>
+      </div>
+
+    </div>
+  }
+
+</section>
+

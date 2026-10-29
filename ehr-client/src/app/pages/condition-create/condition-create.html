@@ -1,0 +1,67 @@
+
+<section class="condition-create">
+
+  <a [routerLink]="['/patients', patientId, 'conditions']"
+     class="back-link">
+    ← Back to Problem List
+  </a>
+
+  <h1>Add Clinical Condition</h1>
+  <p>Record a diagnosis in the patient's problem list.</p>
+
+  <form [formGroup]="conditionForm" (ngSubmit)="saveCondition()">
+
+    <div class="field">
+      <label for="diagnosis">Diagnosis *</label>
+      <input id="diagnosis"
+             type="text"
+             formControlName="diagnosis"
+             placeholder="e.g. Essential hypertension">
+    </div>
+
+    <div class="field">
+      <label for="code">ICD-10-CM Code *</label>
+      <input id="code"
+             type="text"
+             formControlName="code"
+             placeholder="e.g. I10">
+    </div>
+
+    <div class="field">
+      <label for="status">Clinical Status *</label>
+      <select id="status" formControlName="clinicalStatus">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="resolved">Resolved</option>
+        <option value="remission">Remission</option>
+        <option value="recurrence">Recurrence</option>
+        <option value="relapse">Relapse</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="onsetDate">Onset Date</label>
+      <input id="onsetDate"
+             type="date"
+             formControlName="onsetDate">
+    </div>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="form-actions">
+      <a [routerLink]="['/patients', patientId, 'conditions']">
+        Cancel
+      </a>
+
+      <button type="submit"
+              [disabled]="conditionForm.invalid || saving()">
+        {{ saving() ? 'Saving...' : 'Save Condition' }}
+      </button>
+    </div>
+
+  </form>
+
+</section>
+

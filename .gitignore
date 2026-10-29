@@ -32,3 +32,4 @@
 # System files
 .DS_Store
 Thumbs.db
+/ehr-client-git-backup/

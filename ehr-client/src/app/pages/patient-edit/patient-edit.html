@@ -1,0 +1,71 @@
+
+<section class="patient-edit">
+
+  <a [routerLink]="['/patients', patient()?.id]" class="back-link">
+    ← Back to Patient Chart
+  </a>
+
+  <h1>Edit Patient Demographics</h1>
+  <p>Update patient information in the FHIR database.</p>
+
+  @if (loading()) {
+    <p>Loading patient...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && patient()) {
+    <form [formGroup]="patientForm" (ngSubmit)="savePatient()">
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="firstName">First Name</label>
+          <input id="firstName"
+                 formControlName="firstName"
+                 type="text" />
+        </div>
+
+        <div class="field">
+          <label for="lastName">Last Name</label>
+          <input id="lastName"
+                 formControlName="lastName"
+                 type="text" />
+        </div>
+
+        <div class="field">
+          <label for="birthDate">Date of Birth</label>
+          <input id="birthDate"
+                 formControlName="birthDate"
+                 type="date" />
+        </div>
+
+        <div class="field">
+          <label for="gender">Administrative Gender</label>
+          <select id="gender" formControlName="gender">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a [routerLink]="['/patients', patient()?.id]"
+           class="cancel">
+          Cancel
+        </a>
+
+        <button type="submit"
+                [disabled]="saving() || patientForm.invalid">
+          {{ saving() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+
+    </form>
+  }
+
+</section>
+

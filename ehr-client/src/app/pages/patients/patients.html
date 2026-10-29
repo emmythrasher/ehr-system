@@ -1,0 +1,65 @@
+
+<section class="patients-page">
+
+  <header class="page-header">
+    <div>
+      <h1>Patients</h1>
+      <p>Manage patient records and demographics</p>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="/patients/new" class="new-patient">
+        + New Patient
+      </a>
+
+      <button (click)="loadPatients()" [disabled]="loading()">
+        Refresh Patients
+      </button>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p class="message">Loading patients...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Patient Name</th>
+          <th>Date of Birth</th>
+          <th>Gender</th>
+          <th>FHIR ID</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (patient of patients(); track patient.id) {
+            <tr>
+              <td>
+                <a
+                  [routerLink]="['/patients', patient.id]"
+                  class="patient-link">
+                  {{ getPatientName(patient) }}
+                </a>
+              </td>
+              <td>{{ patient.birthDate || '—' }}</td>
+              <td>{{ patient.gender || '—' }}</td>
+              <td>{{ patient.id || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (patients().length === 0) {
+        <p class="message">No patient records found.</p>
+      }
+    </div>
+  }
+
+</section>

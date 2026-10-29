@@ -1,0 +1,59 @@
+
+<section class="condition-edit">
+
+  <a [routerLink]="['/patients', patientId, 'conditions']"
+     class="back-link">
+    ← Back to Problem List
+  </a>
+
+  <h1>Edit Clinical Condition</h1>
+
+  @if (loading()) {
+    <p>Loading condition...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && condition(); as c) {
+    <div class="condition-summary">
+      <h2>{{ c.code?.text || c.code?.coding?.[0]?.display }}</h2>
+      <p>Code: {{ c.code?.coding?.[0]?.code || '—' }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="field">
+        <label for="clinicalStatus">Clinical Status</label>
+        <select id="clinicalStatus" formControlName="clinicalStatus">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+          <option value="resolved">Resolved</option>
+          <option value="remission">Remission</option>
+          <option value="recurrence">Recurrence</option>
+          <option value="relapse">Relapse</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="onsetDate">Onset Date</label>
+        <input id="onsetDate" type="date"
+               formControlName="onsetDate">
+      </div>
+
+      <div class="form-actions">
+        <a [routerLink]="['/patients', patientId, 'conditions']"
+           class="cancel">
+          Cancel
+        </a>
+
+        <button type="submit"
+                [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  }
+
+</section>
+

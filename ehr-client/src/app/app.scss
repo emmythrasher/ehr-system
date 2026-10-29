@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.ehr-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #0f172a;
+  color: white;
+  padding: 24px;
+
+  h2 {
+    margin: 0 0 32px;
+  }
+
+  nav a {
+    display: block;
+    padding: 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  nav a.active,
+  nav a:hover {
+    background: #1e293b;
+    color: white;
+  }
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+}

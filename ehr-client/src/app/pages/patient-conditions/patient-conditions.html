@@ -1,0 +1,72 @@
+
+<section class="conditions-page">
+
+  <a [routerLink]="['/patients', patientId]" class="back-link">
+    ← Back to Patient Chart
+  </a>
+
+  <header class="page-header">
+    <div>
+      <h1>Problem List</h1>
+      <p>Patient ID: {{ patientId }}</p>
+    </div>
+
+    <a [routerLink]="['/patients', patientId, 'conditions', 'new']"
+       class="primary-button">
+      + Add Condition
+    </a>
+  </header>
+
+  @if (loading()) {
+    <p>Loading conditions...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Diagnosis</th>
+          <th>Code</th>
+          <th>Clinical Status</th>
+          <th>Onset Date</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (condition of conditions(); track condition.id) {
+            <tr>
+              <td>{{ getConditionName(condition) }}</td>
+              <td>{{ getConditionCode(condition) }}</td>
+              <td>{{ getClinicalStatus(condition) }}</td>
+              <td>{{ condition.onsetDateTime || '—' }}</td>
+              <td>
+                <a
+                  [routerLink]="[
+      '/patients',
+      patientId,
+      'conditions',
+      condition.id,
+      'edit'
+    ]"
+                  class="edit-link">
+                  Edit
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (conditions().length === 0) {
+        <p class="empty-state">No conditions recorded.</p>
+      }
+    </div>
+  }
+
+</section>
+

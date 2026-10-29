@@ -1,0 +1,59 @@
+
+<section class="patient-create">
+  <h1>Register New Patient</h1>
+  <p>Enter patient demographic information.</p>
+
+  <form [formGroup]="patientForm"
+        (ngSubmit)="savePatient()">
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="firstName">First Name *</label>
+        <input id="firstName"
+               type="text"
+               formControlName="firstName" />
+      </div>
+
+      <div class="field">
+        <label for="lastName">Last Name *</label>
+        <input id="lastName"
+               type="text"
+               formControlName="lastName" />
+      </div>
+
+      <div class="field">
+        <label for="birthDate">Date of Birth *</label>
+        <input id="birthDate"
+               type="date"
+               formControlName="birthDate" />
+      </div>
+
+      <div class="field">
+        <label for="gender">Administrative Gender</label>
+        <select id="gender" formControlName="gender">
+          <option value="unknown">Unknown</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <div class="form-actions">
+      <button type="button"
+              class="cancel"
+              routerLink="/patients"
+              >
+        Cancel
+      </button>
+
+      <button type="submit"
+              [disabled]="patientForm.invalid || saving">
+        {{ saving ? 'Saving...' : 'Register Patient' }}
+      </button>
+    </div>
+  </form>
+</section>
+
