@@ -22,10 +22,30 @@
         <p>No encounter documentation module yet.</p>
       </div>
 
+
       <div class="overview-card">
-        <h3>Vitals</h3>
-        <p>Vital sign observations will appear here.</p>
+        <div class="card-heading">
+          <h3>Vital Signs</h3>
+        </div>
+
+        @if (vitalsLoading()) {
+          <p>Loading vital signs...</p>
+        } @else if (vitalsError()) {
+          <p class="error">{{ vitalsError() }}</p>
+        } @else if (vitals().length === 0) {
+          <p>No vital signs recorded for this encounter.</p>
+        } @else {
+          <div class="vitals-summary">
+            @for (vital of vitals(); track vital.id) {
+              <div class="vital-row">
+                <span>{{ getVitalName(vital) }}</span>
+                <strong>{{ getVitalValue(vital) }}</strong>
+              </div>
+            }
+          </div>
+        }
       </div>
+
 
       <div class="overview-card">
         <h3>Orders</h3>

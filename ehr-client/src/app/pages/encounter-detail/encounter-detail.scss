@@ -39,3 +39,36 @@
     grid-template-columns: 1fr;
   }
 }
+
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0 0 16px;
+  }
+}
+
+.vitals-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.vital-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+
+  span {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  strong {
+    color: #0f172a;
+    font-size: 14px;
+  }
+}
