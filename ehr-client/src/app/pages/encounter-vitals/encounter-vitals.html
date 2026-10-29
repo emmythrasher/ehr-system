@@ -1,0 +1,66 @@
+
+<section class="vitals-page">
+
+  <header class="page-header">
+    <div>
+      <h1>Vital Signs</h1>
+      <p>Measurements recorded during this encounter</p>
+    </div>
+
+    <div class="header-actions">
+      <button (click)="loadVitals()" [disabled]="loading()">
+        Refresh
+      </button>
+
+      <a
+        [routerLink]="[
+          '/patients',
+          patientId,
+          'encounters',
+          encounterId,
+          'vitals',
+          'new'
+        ]"
+        class="primary-button">
+        + Record Vitals
+      </a>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p class="message">Loading vital signs...</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Measurement</th>
+          <th>Value</th>
+          <th>Recorded At</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (observation of observations(); track observation.id) {
+            <tr>
+              <td>{{ getName(observation) }}</td>
+              <td class="value">{{ getValue(observation) }}</td>
+              <td>{{ observation.effectiveDateTime || '—' }}</td>
+              <td>{{ observation.status }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (observations().length === 0) {
+        <div class="empty-state">
+          <p>No vital signs recorded for this encounter.</p>
+        </div>
+      }
+    </div>
+  }
+
+</section>
+

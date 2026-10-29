@@ -37,7 +37,17 @@
         Overview
       </a>
 
-      <span class="disabled-tab">Vitals</span>
+      <a
+        [routerLink]="[
+    '/patients',
+    patientId,
+    'encounters',
+    encounterId,
+    'vitals'
+  ]"
+        routerLinkActive="active">
+        Vitals
+      </a>
       <span class="disabled-tab">Diagnoses</span>
       <span class="disabled-tab">Notes</span>
       <span class="disabled-tab">Orders</span>

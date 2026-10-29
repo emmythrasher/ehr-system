@@ -15,6 +15,7 @@ import { PatientEncounters } from './pages/patient-encounters/patient-encounters
 import { EncounterCreate } from './pages/encounter-create/encounter-create';
 import { EncounterWorkspace } from './layouts/encounter-workspace/encounter-workspace';
 import { EncounterDetail } from './pages/encounter-detail/encounter-detail';
+import { EncounterVitals } from './pages/encounter-vitals/encounter-vitals';
 
 export const routes: Routes = [
   {
@@ -65,6 +66,10 @@ export const routes: Routes = [
           {
             path: '',
             component: EncounterDetail
+          },
+          {
+            path: 'vitals',
+            component: EncounterVitals
           }
         ]
       }
