@@ -1,0 +1,34 @@
+# HAPI FHIR upstream repository
+/fhir-server/
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+
+# Java / Maven
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ
+.idea/
+*.iml
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+**/application-local.properties
+**/application-local.yml
+**/application-local.yaml
+
+# Local databases
+*.db
+*.sqlite
+*.mv.db
+*.trace.db
+
+# System files
+.DS_Store
+Thumbs.db
