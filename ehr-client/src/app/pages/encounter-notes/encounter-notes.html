@@ -9,6 +9,23 @@
     <span class="draft-badge">Preliminary</span>
   </header>
 
+  @if (loading()) {
+    <p class="loading-message">Loading existing draft...</p>
+  }
+
+  @if (!loading() && existingNote()) {
+    <p class="draft-info">
+      Editing an existing saved draft.
+      Document ID: {{ existingNote()?.id }}
+    </p>
+  }
+
+  @if (!loading() && !existingNote() && !error()) {
+    <p class="draft-info">
+      No previous draft found. A new note will be created.
+    </p>
+  }
+
   <form [formGroup]="form" (ngSubmit)="saveDraft()">
 
     <div class="field">
@@ -56,7 +73,8 @@
     }
 
     <div class="form-actions">
-      <button type="submit" [disabled]="saving()">
+      <button type="submit"
+              [disabled]="loading() || saving() || !ready()">
         {{ saving() ? 'Saving...' : 'Save Draft' }}
       </button>
     </div>

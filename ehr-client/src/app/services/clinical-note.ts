@@ -89,5 +89,21 @@ export class ClinicalNoteService {
       }
     );
   }
+
+  updateNote(
+    id: string,
+    note: FhirDocumentReference
+  ): Observable<FhirDocumentReference> {
+    return this.http.put<FhirDocumentReference>(
+      `${this.apiUrl}/${encodeURIComponent(id)}`,
+      note,
+      {
+        headers: {
+          'Content-Type': 'application/fhir+json',
+          'Accept': 'application/fhir+json'
+        }
+      }
+    );
+  }
 }
 
