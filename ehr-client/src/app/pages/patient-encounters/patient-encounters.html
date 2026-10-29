@@ -1,0 +1,47 @@
+
+<section class="encounters-page">
+
+  <header class="page-header">
+    <div>
+      <h1>Encounter History</h1>
+      <p>Clinical visits and encounter records</p>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p>Loading encounters...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Encounter Date</th>
+          <th>Visit Type</th>
+          <th>Status</th>
+          <th>FHIR ID</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (encounter of encounters(); track encounter.id) {
+            <tr>
+              <td>{{ encounter.period?.start || '—' }}</td>
+              <td>{{ getEncounterType(encounter) }}</td>
+              <td>{{ encounter.status }}</td>
+              <td>{{ encounter.id }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (encounters().length === 0) {
+        <p class="empty-state">
+          No encounters recorded for this patient.
+        </p>
+      }
+    </div>
+  }
+
+</section>

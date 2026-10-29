@@ -10,6 +10,7 @@ import { ConditionCreate } from './pages/condition-create/condition-create';
 import { ConditionEdit } from './pages/condition-edit/condition-edit';
 
 import { PatientWorkspace } from './layouts/patient-workspace/patient-workspace';
+import { PatientEncounters } from './pages/patient-encounters/patient-encounters';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,10 @@ export const routes: Routes = [
       {
         path: 'conditions/:conditionId/edit',
         component: ConditionEdit
+      },
+      {
+        path: 'encounters',
+        component: PatientEncounters
       }
     ]
   },

@@ -42,7 +42,10 @@
 
       <span class="disabled-tab">Medications</span>
       <span class="disabled-tab">Allergies</span>
-      <span class="disabled-tab">Encounters</span>
+      <a [routerLink]="['/patients', patientId(), 'encounters']"
+         routerLinkActive="active">
+        Encounters
+      </a>
     </nav>
 
     <div class="workspace-content">
