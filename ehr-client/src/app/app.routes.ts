@@ -10,7 +10,9 @@ import { ConditionCreate } from './pages/condition-create/condition-create';
 import { ConditionEdit } from './pages/condition-edit/condition-edit';
 
 import { PatientWorkspace } from './layouts/patient-workspace/patient-workspace';
+
 import { PatientEncounters } from './pages/patient-encounters/patient-encounters';
+import { EncounterCreate } from './pages/encounter-create/encounter-create';
 
 export const routes: Routes = [
   {
@@ -49,6 +51,10 @@ export const routes: Routes = [
       {
         path: 'encounters',
         component: PatientEncounters
+      },
+      {
+        path: 'encounters/new',
+        component: EncounterCreate
       }
     ]
   },

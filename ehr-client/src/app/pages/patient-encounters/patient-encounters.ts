@@ -7,10 +7,12 @@ import {
   FhirEncounter
 } from '../../services/encounter';
 
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-patient-encounters',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './patient-encounters.html',
   styleUrl: './patient-encounters.scss'
 })
@@ -23,16 +25,15 @@ export class PatientEncounters implements OnInit {
   loading = signal(false);
   error = signal('');
 
-  ngOnInit(): void {
-    const patientId =
-      this.route.parent?.snapshot.paramMap.get('id');
+  patientId = this.route.parent?.snapshot.paramMap.get('id') ?? '';
 
-    if (!patientId) {
+  ngOnInit(): void {
+    if (!this.patientId) {
       this.error.set('Patient ID is missing.');
       return;
     }
 
-    this.loadEncounters(patientId);
+    this.loadEncounters(this.patientId);
   }
 
   loadEncounters(patientId: string): void {

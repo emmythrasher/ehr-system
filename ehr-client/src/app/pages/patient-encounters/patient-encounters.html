@@ -6,6 +6,11 @@
       <h1>Encounter History</h1>
       <p>Clinical visits and encounter records</p>
     </div>
+    <a
+      [routerLink]="['/patients', patientId, 'encounters', 'new']"
+      class="primary-button">
+      + New Encounter
+    </a>
   </header>
 
   @if (loading()) {

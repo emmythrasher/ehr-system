@@ -1,0 +1,61 @@
+
+<section class="encounter-create">
+
+  <a [routerLink]="['/patients', patientId, 'encounters']"
+     class="back-link">
+    ← Back to Encounter History
+  </a>
+
+  <h1>New Encounter</h1>
+  <p>Register a new clinical visit.</p>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <div class="field">
+      <label for="visitType">Visit Type</label>
+
+      <select id="visitType" formControlName="visitType">
+        <option value="office">Office Visit</option>
+        <option value="telehealth">Telehealth Visit</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="status">Encounter Status</label>
+
+      <select id="status" formControlName="status">
+        <option value="planned">Planned</option>
+        <option value="arrived">Arrived</option>
+        <option value="in-progress">In Progress</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="startDate">Visit Start Date & Time</label>
+
+      <input
+        id="startDate"
+        type="datetime-local"
+        formControlName="startDate"
+      />
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <div class="form-actions">
+      <a [routerLink]="['/patients', patientId, 'encounters']"
+         class="cancel">
+        Cancel
+      </a>
+
+      <button type="submit"
+              [disabled]="form.invalid || saving()">
+        {{ saving() ? 'Creating...' : 'Create Encounter' }}
+      </button>
+    </div>
+
+  </form>
+</section>
+

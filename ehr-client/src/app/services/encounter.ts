@@ -52,6 +52,21 @@ export class EncounterService {
   private http = inject(HttpClient);
   private apiUrl = '/fhir/Encounter';
 
+  createEncounter(
+    encounter: FhirEncounter
+  ): Observable<FhirEncounter> {
+    return this.http.post<FhirEncounter>(
+      this.apiUrl,
+      encounter,
+      {
+        headers: {
+          'Content-Type': 'application/fhir+json',
+          'Accept': 'application/fhir+json'
+        }
+      }
+    );
+  }
+
   getEncounters(patientId: string): Observable<EncounterBundle> {
     const params = new HttpParams()
       .set('patient', patientId)
