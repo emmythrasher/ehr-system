@@ -1,1 +1,98 @@
-<p>vitals-create works!</p>
+
+<section class="vitals-create">
+
+  <a
+    [routerLink]="[
+      '/patients', patientId,
+      'encounters', encounterId, 'vitals'
+    ]"
+    class="back-link">
+    ← Back to Vital Signs
+  </a>
+
+  <h1>Record Vital Signs</h1>
+  <p>Enter clinical measurements for this encounter.</p>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <div class="field">
+      <label for="type">Measurement Type</label>
+
+      <select id="type" formControlName="type">
+        <option value="bp">Blood Pressure</option>
+        <option value="hr">Heart Rate</option>
+        <option value="rr">Respiratory Rate</option>
+        <option value="temp">Body Temperature</option>
+        <option value="spo2">Oxygen Saturation</option>
+        <option value="weight">Body Weight</option>
+        <option value="height">Body Height</option>
+      </select>
+    </div>
+
+    @if (form.controls.type.value === 'bp') {
+      <div class="measurement-grid">
+        <div class="field">
+          <label for="systolic">Systolic (mmHg)</label>
+          <input
+            id="systolic"
+            type="number"
+            min="1"
+            formControlName="systolic"
+          />
+        </div>
+
+        <div class="field">
+          <label for="diastolic">Diastolic (mmHg)</label>
+          <input
+            id="diastolic"
+            type="number"
+            min="1"
+            formControlName="diastolic"
+          />
+        </div>
+      </div>
+    } @else {
+      <div class="field">
+        <label for="value">Measurement Value</label>
+        <input
+          id="value"
+          type="number"
+          step="any"
+          min="0.01"
+          formControlName="value"
+        />
+      </div>
+
+      <p class="unit-hint">
+        @switch (form.controls.type.value) {
+          @case ('hr') { Unit: beats/min }
+          @case ('rr') { Unit: breaths/min }
+          @case ('temp') { Unit: °C }
+          @case ('spo2') { Unit: % }
+          @case ('weight') { Unit: kg }
+          @case ('height') { Unit: cm }
+        }
+      </p>
+    }
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <div class="form-actions">
+      <a
+        [routerLink]="[
+          '/patients', patientId,
+          'encounters', encounterId, 'vitals'
+        ]"
+        class="cancel">
+        Cancel
+      </a>
+
+      <button type="submit" [disabled]="saving()">
+        {{ saving() ? 'Saving...' : 'Save Vital Signs' }}
+      </button>
+    </div>
+  </form>
+</section>
+
