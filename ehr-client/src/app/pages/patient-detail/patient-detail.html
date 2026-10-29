@@ -1,10 +1,6 @@
 
 <section class="patient-detail">
 
-  <a routerLink="/patients" class="back-link">
-    ← Back to Patients
-  </a>
-
   @if (loading()) {
     <p>Loading patient chart...</p>
   }
@@ -14,18 +10,6 @@
   }
 
   @if (patient(); as p) {
-
-    <header class="patient-header">
-      <div>
-        <h1>{{ getPatientName(p) }}</h1>
-        <p>Patient ID: {{ p.id }}</p>
-      </div>
-
-      <a [routerLink]="['/patients', p.id, 'edit']"
-         class="edit-button">
-        Edit Demographics
-      </a>
-    </header>
 
     <div class="chart-grid">
 

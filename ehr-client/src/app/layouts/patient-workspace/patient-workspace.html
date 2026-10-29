@@ -1,0 +1,54 @@
+
+<section class="patient-workspace">
+
+  <a routerLink="/patients" class="back-link">
+    ← Patient Directory
+  </a>
+
+  @if (loading()) {
+    <p>Loading patient...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (patient(); as p) {
+
+    <header class="patient-banner">
+      <div>
+        <h1>{{ patientName() }}</h1>
+
+        <p>
+          DOB: {{ p.birthDate || 'Unknown' }}
+          · ID: {{ p.id }}
+          · {{ p.gender || 'Unknown' }}
+        </p>
+      </div>
+
+      <a [routerLink]="['/patients', p.id, 'edit']"
+         class="edit-link">
+        Edit Demographics
+      </a>
+    </header>
+
+    <nav class="chart-tabs">
+      <a [routerLink]="['/patients', patientId()]"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLinkActive="active">
+        Overview
+      </a>
+
+      <a [routerLink]="['/patients', patientId(), 'conditions']"
+         routerLinkActive="active">
+        Problem List
+      </a>
+
+      <span class="disabled-tab">Medications</span>
+      <span class="disabled-tab">Allergies</span>
+      <span class="disabled-tab">Encounters</span>
+    </nav>
+
+    <div class="workspace-content">
+      <router-outlet />
+    </div>
+  }
+
+</section>
+
