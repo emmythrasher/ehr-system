@@ -1,0 +1,92 @@
+
+:host {
+  display: block;
+}
+
+.notes-page {
+  max-width: 960px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+
+  p {
+    margin: 0;
+    color: #64748b;
+  }
+}
+
+.draft-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+form {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 28px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  label {
+    font-weight: 600;
+    color: #334155;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font: inherit;
+    resize: vertical;
+  }
+
+  textarea:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+  }
+}
+
+.error {
+  color: #dc2626;
+}
+
+.success {
+  color: #15803d;
+}

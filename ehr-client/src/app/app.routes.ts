@@ -17,6 +17,7 @@ import { EncounterWorkspace } from './layouts/encounter-workspace/encounter-work
 import { EncounterDetail } from './pages/encounter-detail/encounter-detail';
 import { EncounterVitals } from './pages/encounter-vitals/encounter-vitals';
 import { VitalsCreate } from './pages/vitals-create/vitals-create';
+import { EncounterNotes } from './pages/encounter-notes/encounter-notes';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,10 @@ export const routes: Routes = [
           {
             path: 'vitals/new',
             component: VitalsCreate
+          },
+          {
+            path: 'notes',
+            component: EncounterNotes
           }
         ]
       }

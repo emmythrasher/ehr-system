@@ -51,7 +51,20 @@
         Vitals
       </a>
       <span class="disabled-tab">Diagnoses</span>
-      <span class="disabled-tab">Notes</span>
+
+      <!-- Notes Tab -->
+      <a
+        [routerLink]="[
+    '/patients',
+    patientId(),
+    'encounters',
+    encounterId(),
+    'notes'
+  ]"
+        routerLinkActive="active">
+        Notes
+      </a>
+
       <span class="disabled-tab">Orders</span>
     </nav>
 

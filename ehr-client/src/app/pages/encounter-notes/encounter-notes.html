@@ -1,0 +1,67 @@
+
+<section class="notes-page">
+
+  <header class="page-header">
+    <div>
+      <h1>Clinical Documentation</h1>
+      <p>SOAP progress note</p>
+    </div>
+    <span class="draft-badge">Preliminary</span>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="saveDraft()">
+
+    <div class="field">
+      <label for="subjective">Subjective</label>
+      <textarea id="subjective"
+                rows="5"
+                formControlName="subjective"
+                placeholder="Chief complaint and history of present illness">
+      </textarea>
+    </div>
+
+    <div class="field">
+      <label for="objective">Objective</label>
+      <textarea id="objective"
+                rows="5"
+                formControlName="objective"
+                placeholder="Examination findings and clinical observations">
+      </textarea>
+    </div>
+
+    <div class="field">
+      <label for="assessment">Assessment</label>
+      <textarea id="assessment"
+                rows="4"
+                formControlName="assessment"
+                placeholder="Clinical assessment and diagnoses">
+      </textarea>
+    </div>
+
+    <div class="field">
+      <label for="plan">Plan</label>
+      <textarea id="plan"
+                rows="5"
+                formControlName="plan"
+                placeholder="Treatment, testing, and follow-up">
+      </textarea>
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    @if (success()) {
+      <p class="success" role="status">{{ success() }}</p>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="saving()">
+        {{ saving() ? 'Saving...' : 'Save Draft' }}
+      </button>
+    </div>
+
+  </form>
+
+</section>
+
