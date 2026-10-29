@@ -1,11 +1,7 @@
 
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import {
-  EncounterService,
-  FhirEncounter
-} from '../../services/encounter';
 
+import { EncounterContextService } from '../../services/encounter-context';
 import {
   ObservationService,
   FhirObservation
@@ -19,57 +15,28 @@ import {
   styleUrl: './encounter-detail.scss'
 })
 export class EncounterDetail implements OnInit {
-  private route = inject(ActivatedRoute);
-  private encounterService = inject(EncounterService);
-
-
-  encounter = signal<FhirEncounter | null>(null);
-  loading = signal(true);
-  error = signal('');
-
+  private context = inject(EncounterContextService);
   private observationService = inject(ObservationService);
+
+  encounter = this.context.encounter;
+  loading = this.context.loading;
+  error = this.context.error;
 
   vitals = signal<FhirObservation[]>([]);
   vitalsLoading = signal(false);
   vitalsError = signal('');
 
   ngOnInit(): void {
-    const id = this.route.parent?.snapshot.paramMap.get('encounterId');
+    const encounter = this.encounter();
+    const encounterId = encounter?.id;
 
-    if (!id) {
-      this.error.set('Encounter ID is missing.');
-      this.loading.set(false);
-      return;
+    const patientId =
+      encounter?.subject?.reference?.match(/^Patient\/([^/]+)$/)?.[1];
+
+    if (patientId && encounterId) {
+      this.loadVitals(patientId, encounterId);
     }
-
-    this.encounterService.getEncounterById(id).subscribe({
-      next: encounter => {
-        this.encounter.set(encounter);
-        this.loading.set(false);
-
-        const patientId =
-          this.route.parent?.parent?.snapshot.paramMap.get('id');
-
-        if (
-          patientId &&
-          encounter.id &&
-          encounter.subject?.reference === `Patient/${patientId}`
-        ) {
-          this.loadVitals(patientId, encounter.id);
-        } else {
-          this.vitalsError.set(
-            'Encounter does not match the selected patient.'
-          );
-        }
-      },
-      error: err => {
-        console.error(err);
-        this.error.set('Unable to load encounter details.');
-        this.loading.set(false);
-      }
-    });
   }
-
 
   loadVitals(patientId: string, encounterId: string): void {
     this.vitalsLoading.set(true);
@@ -123,6 +90,5 @@ export class EncounterDetail implements OnInit {
 
     return '—';
   }
-
 }
 

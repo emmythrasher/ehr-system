@@ -1,6 +1,7 @@
 
 import {
   Component,
+  DestroyRef,
   inject,
   OnInit,
   signal
@@ -13,61 +14,57 @@ import {
   RouterOutlet
 } from '@angular/router';
 
-import {
-  EncounterService,
-  FhirEncounter
-} from '../../services/encounter';
+import { combineLatest } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EncounterContextService } from '../../services/encounter-context';
 
 @Component({
   selector: 'app-encounter-workspace',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  providers: [EncounterContextService],
   templateUrl: './encounter-workspace.html',
   styleUrl: './encounter-workspace.scss'
 })
 export class EncounterWorkspace implements OnInit {
   private route = inject(ActivatedRoute);
-  private encounterService = inject(EncounterService);
+  private destroyRef = inject(DestroyRef);
 
-  patientId = this.route.parent?.snapshot.paramMap.get('id') ?? '';
-  encounterId = this.route.snapshot.paramMap.get('encounterId') ?? '';
+  readonly context = inject(EncounterContextService);
 
-  encounter = signal<FhirEncounter | null>(null);
-  loading = signal(true);
-  error = signal('');
+  patientId = signal('');
+  encounterId = signal('');
+
+  encounter = this.context.encounter;
+  loading = this.context.loading;
+  error = this.context.error;
+  visitType = this.context.visitType;
 
   ngOnInit(): void {
-    if (!this.patientId || !this.encounterId) {
-      this.error.set('Patient or encounter ID is missing.');
-      this.loading.set(false);
+    const patientRoute = this.route.parent;
+
+    if (!patientRoute) {
       return;
     }
 
-    this.encounterService.getEncounterById(this.encounterId)
-      .subscribe({
-        next: encounter => {
-          if (encounter.subject?.reference !== `Patient/${this.patientId}`) {
-            this.error.set('Encounter does not belong to this patient.');
-          } else {
-            this.encounter.set(encounter);
-          }
+    combineLatest([
+      patientRoute.paramMap,
+      this.route.paramMap
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([patientParams, encounterParams]) => {
+        const patientId = patientParams.get('id') ?? '';
+        const encounterId = encounterParams.get('encounterId') ?? '';
 
-          this.loading.set(false);
-        },
-        error: err => {
-          console.error('Failed to retrieve encounter:', err);
-          this.error.set('Unable to load encounter.');
-          this.loading.set(false);
+        this.patientId.set(patientId);
+        this.encounterId.set(encounterId);
+
+        if (patientId && encounterId) {
+          this.context.loadEncounter(encounterId, patientId);
+        } else {
+          this.context.clear();
         }
       });
-  }
-
-  getVisitType(encounter: FhirEncounter): string {
-    return encounter.type?.[0]?.text
-      || encounter.type?.[0]?.coding?.[0]?.display
-      || encounter.class?.display
-      || encounter.class?.code
-      || 'Clinical Visit';
   }
 }
 

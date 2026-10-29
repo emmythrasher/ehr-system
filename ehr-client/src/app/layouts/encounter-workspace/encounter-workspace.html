@@ -1,7 +1,7 @@
 
 <section class="encounter-workspace">
 
-  <a [routerLink]="['/patients', patientId, 'encounters']"
+  <a [routerLink]="['/patients', patientId(), 'encounters']"
      class="back-link">
     ← Back to Encounter History
   </a>
@@ -14,7 +14,7 @@
 
     <header class="encounter-header">
       <div>
-        <h1>{{ getVisitType(e) }}</h1>
+        <h1>{{ visitType() }}</h1>
         <p>Encounter ID: {{ e.id }}</p>
         <p>Start: {{ e.period?.start || 'Not recorded' }}</p>
       </div>
@@ -25,24 +25,26 @@
     </header>
 
     <nav class="encounter-tabs">
+      <!-- Overview Tab -->
       <a
         [routerLink]="[
           '/patients',
-          patientId,
+          patientId(),
           'encounters',
-          encounterId
+          encounterId()
         ]"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">
         Overview
       </a>
 
+      <!-- Vitals Tab -->
       <a
         [routerLink]="[
     '/patients',
-    patientId,
+    patientId(),
     'encounters',
-    encounterId,
+    encounterId(),
     'vitals'
   ]"
         routerLinkActive="active">
