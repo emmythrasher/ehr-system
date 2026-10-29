@@ -77,4 +77,10 @@ export class EncounterService {
       { params }
     );
   }
+
+  getEncounterById(id: string): Observable<FhirEncounter> {
+    return this.http.get<FhirEncounter>(
+      `${this.apiUrl}/${encodeURIComponent(id)}`
+    );
+  }
 }

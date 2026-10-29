@@ -1,0 +1,52 @@
+
+<section class="encounter-workspace">
+
+  <a [routerLink]="['/patients', patientId, 'encounters']"
+     class="back-link">
+    ← Back to Encounter History
+  </a>
+
+  @if (loading()) {
+    <p>Loading encounter...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (encounter(); as e) {
+
+    <header class="encounter-header">
+      <div>
+        <h1>{{ getVisitType(e) }}</h1>
+        <p>Encounter ID: {{ e.id }}</p>
+        <p>Start: {{ e.period?.start || 'Not recorded' }}</p>
+      </div>
+
+      <span class="status">
+        {{ e.status }}
+      </span>
+    </header>
+
+    <nav class="encounter-tabs">
+      <a
+        [routerLink]="[
+          '/patients',
+          patientId,
+          'encounters',
+          encounterId
+        ]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Overview
+      </a>
+
+      <span class="disabled-tab">Vitals</span>
+      <span class="disabled-tab">Diagnoses</span>
+      <span class="disabled-tab">Notes</span>
+      <span class="disabled-tab">Orders</span>
+    </nav>
+
+    <div class="encounter-content">
+      <router-outlet />
+    </div>
+  }
+
+</section>
+

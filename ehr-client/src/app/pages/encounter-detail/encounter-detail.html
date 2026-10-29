@@ -1,0 +1,38 @@
+
+<section class="encounter-overview">
+  <h2>Encounter Overview</h2>
+
+  @if (loading()) {
+    <p>Loading visit information...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (encounter(); as e) {
+    <div class="overview-grid">
+
+      <div class="overview-card">
+        <h3>Visit Information</h3>
+        <p><strong>Status:</strong> {{ e.status }}</p>
+        <p><strong>Class:</strong> {{ e.class.display || e.class.code }}</p>
+        <p><strong>Start:</strong> {{ e.period?.start || '—' }}</p>
+        <p><strong>End:</strong> {{ e.period?.end || '—' }}</p>
+      </div>
+
+      <div class="overview-card">
+        <h3>Clinical Documentation</h3>
+        <p>No encounter documentation module yet.</p>
+      </div>
+
+      <div class="overview-card">
+        <h3>Vitals</h3>
+        <p>Vital sign observations will appear here.</p>
+      </div>
+
+      <div class="overview-card">
+        <h3>Orders</h3>
+        <p>Clinical orders will appear here.</p>
+      </div>
+
+    </div>
+  }
+</section>
+

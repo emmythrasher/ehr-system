@@ -13,6 +13,8 @@ import { PatientWorkspace } from './layouts/patient-workspace/patient-workspace'
 
 import { PatientEncounters } from './pages/patient-encounters/patient-encounters';
 import { EncounterCreate } from './pages/encounter-create/encounter-create';
+import { EncounterWorkspace } from './layouts/encounter-workspace/encounter-workspace';
+import { EncounterDetail } from './pages/encounter-detail/encounter-detail';
 
 export const routes: Routes = [
   {
@@ -55,6 +57,16 @@ export const routes: Routes = [
       {
         path: 'encounters/new',
         component: EncounterCreate
+      },
+      {
+        path: 'encounters/:encounterId',
+        component: EncounterWorkspace,
+        children: [
+          {
+            path: '',
+            component: EncounterDetail
+          }
+        ]
       }
     ]
   },

@@ -35,7 +35,17 @@
               <td>{{ encounter.period?.start || '—' }}</td>
               <td>{{ getEncounterType(encounter) }}</td>
               <td>{{ encounter.status }}</td>
-              <td>{{ encounter.id }}</td>
+              <td>
+                <a
+                  [routerLink]="[
+      '/patients',
+      patientId,
+      'encounters',
+      encounter.id
+    ]">
+                  Open Encounter
+                </a>
+              </td>
             </tr>
           }
         </tbody>
